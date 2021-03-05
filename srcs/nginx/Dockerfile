@@ -1,5 +1,5 @@
 FROM alpine:3.13.2
-
+# On telecharge les paquets sur le server alpine
 RUN apk update && apk add nginx
 RUN apk add openssh
 RUN apk add openssl
