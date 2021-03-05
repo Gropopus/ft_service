@@ -11,7 +11,6 @@ RUN apk add --no-cache openrc
 RUN mkdir -p /run/openrc
 RUN touch /run/openrc/softlevel
 RUN openrc >/dev/null 2>&1
-COPY /srcs/ssl-conf.conf /etc/nginx/
 
 COPY ./srcs/default.conf /etc/nginx/conf.d/
 RUN mkdir -p /run/nginx
