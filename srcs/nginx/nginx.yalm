@@ -1,0 +1,45 @@
+# DEPLYOMENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-tag
+  labels:
+    app: nginx-tag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-tag
+  template:
+    metadata:
+      labels:
+        app: nginx-tag
+    spec:
+      containers:
+      - name: nginx-tag
+        image: my-nginx
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+---
+# SERVICE
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  #annotations:
+   # metallb.universe.tf/allow-shared-ip: shared
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-tag
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+
