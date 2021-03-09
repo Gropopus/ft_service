@@ -2,39 +2,39 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: influxdb
   labels:
-    app: mysql
+    app: influxdb
 spec:
-  serviceName: mysql
+  serviceName: influxdb
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: influxdb
   template:
     metadata:
       labels:
-        app: mysql
+        app: influxdb
     spec:
       containers:
-      - name: mysql
-        image: mysql
+      - name: influxdb
+        image: influxdb
         imagePullPolicy: Never
         ports:
-        - containerPort: 3306
-          name: mysql
+        - containerPort: 8086
+          name: influxdb
 ---
 # SERVICE
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: influxdb
 spec:
   type: ClusterIP
   selector:
-    app: mysql
+    app: influxdb
   ports:
-    - name: mysql
+    - name: influxdb
       protocol: TCP
-      port: 3306
-      targetPort: 3306
+      port: 8086
+      targetPort: 8086
