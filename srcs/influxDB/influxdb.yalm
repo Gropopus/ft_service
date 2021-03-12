@@ -16,6 +16,8 @@ spec:
       labels:
         app: influxdb
     spec:
+      serviceAccountName: telegraf
+      automountServiceAccountToken: true
       containers:
       - name: influxdb
         image: influxdb
@@ -23,6 +25,21 @@ spec:
         ports:
         - containerPort: 8086
           name: influxdb
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - ps -o comm | grep 'telegraf' && ps -o comm | grep 'influxd'
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        volumeMounts:
+        - name: influxdb-persistent-storage
+          mountPath: /var/lib/influxdb
+      volumes:
+      - name: influxdb-persistent-storage
+        persistentVolumeClaim:
+          claimName: influxdb-pv
 ---
 # SERVICE
 apiVersion: v1
