@@ -4,6 +4,12 @@ RUN apk update && apk add nginx
 RUN apk add openssh
 RUN apk add openssl
 
+# Telegraf: (not sure about this...)
+RUN apk add telegraf
+RUN mkdir -p etc/telegraf/ && mkdir -p /var/log/telegraf-log
+RUN touch /var/log/telegraf-log/telegraf.log
+COPY ./srcs/telegraf.conf /etc/telegraf/
+
 RUN adduser -D -g 'www' www
 RUN mkdir /www
 RUN chown -R www:www /var/lib/nginx

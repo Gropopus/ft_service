@@ -84,13 +84,16 @@ printf "${GREEN}\nGREAT SUCCESS !\n${NC}"
 printf "${CYAN}Deploying pods\n${NC}"
 printf "${GREEN}"
 kubectl apply -f ./srcs/MetalLB/metallb.yalm
+kubectl apply -f ./srcs/influxDB/influxdb-pv.yalm
 kubectl apply -f ./srcs/influxDB/influxdb.yalm
+kubectl apply -f ./srcs/mysql/mysql-pv.yalm
 kubectl apply -f ./srcs/mysql/mysql.yalm
 kubectl apply -f ./srcs/wordpress/wordpress.yalm
 kubectl apply -f ./srcs/PhpMyAdmin/phpmyadmin.yalm
 kubectl apply -f ./srcs/nginx/nginx.yalm
 kubectl apply -f ./srcs/Grafana/grafana.yalm
 kubectl apply -f ./srcs/Ftps/ftps.yalm
+kubectl apply -f ./srcs/Telegraf/telegraf.yalm
 printf "${NC}${GREEN}\nGREAT SUCCESS !\n${NC}"
 
 #6 -Open the Dashboard

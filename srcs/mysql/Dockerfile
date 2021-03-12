@@ -6,6 +6,11 @@ RUN apk add openrc
 RUN mkdir -p /run/openrc
 RUN touch /run/openrc/softlevel && openrc >/dev/null 2>&1
 
+RUN apk add telegraf
+RUN mkdir -p etc/telegraf/ && mkdir -p /var/log/telegraf-log
+RUN touch /var/log/telegraf-log/telegraf.log
+COPY ./srcs/telegraf.conf /etc/telegraf/
+
 COPY ./srcs/conf.sql /tmp/
 COPY ./srcs/start.sh /tmp/
 

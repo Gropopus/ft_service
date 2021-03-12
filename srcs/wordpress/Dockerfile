@@ -13,6 +13,11 @@ RUN touch /run/openrc/softlevel && openrc >/dev/null 2>&1
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=FR/ST=75017/L=Paris/O=42/CN=thsembel' -keyout /etc/nginx/localhost.key -out /etc/nginx/localhost.crt >/dev/null 2>&1
 
+RUN apk add telegraf
+RUN mkdir -p etc/telegraf/ && mkdir -p /var/log/telegraf-log
+RUN touch /var/log/telegraf-log/telegraf.log
+COPY ./srcs/telegraf.conf /etc/telegraf/
+
 RUN mkdir -p /run/nginx
 COPY ./srcs/default.conf /etc/nginx/conf.d/
 
