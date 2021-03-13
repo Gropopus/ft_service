@@ -40,6 +40,7 @@ minikube delete
 sudo service docker start
 sudo service nginx stop
 sudo service mariadb stop
+sudo service influxdb stop
 
 #2 -Start the cluster
 printf "${CYAN}Starting minikube...\n${NC}"
