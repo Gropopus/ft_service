@@ -100,5 +100,5 @@ printf "${NC}${GREEN}\nGREAT SUCCESS !\n${NC}"
 #6 -Open the Dashboard
 printf "${CYAN}Opening the Dashboard in Firefox...\n${NC}"
 minikube addons enable metrics-server
+kubectl get all
 minikube dashboard
-printf "${GREEN}Everything has been created well.\nScript done !${NC}"
