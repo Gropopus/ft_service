@@ -14,6 +14,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=FR/ST=75017/L=
 
 RUN rm -rf /share/grafana/conf/sample.ini
 COPY ./srcs/sample.ini /usr/share/grafana/conf/
+COPY ./srcs/grafana.db /usr/share/grafana/data/
 COPY ./srcs/start.sh /tmp/
 
 EXPOSE 3000
