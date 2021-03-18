@@ -54,7 +54,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manife
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Installing filezilla		${NC}"
-apt-get install filezilla
+sudo apt-get install filezilla
 printf "${GREEN}[ok]\n${NC}"
 
 
