@@ -12,6 +12,7 @@ RUN touch /var/log/telegraf-log/telegraf.log
 COPY ./srcs/telegraf.conf /etc/telegraf/
 
 COPY ./srcs/conf.sql /tmp/
+COPY /srcs/wordpress.sql /tmp/
 COPY ./srcs/start.sh /tmp/
 
 EXPOSE 	3306

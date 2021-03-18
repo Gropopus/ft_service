@@ -45,14 +45,18 @@ sudo service influxdb stop
 #2 -Start the cluster
 printf "${CYAN}Starting minikube...\n${NC}"
 minikube start --vm-driver=docker
-printf "${GREEN}Cluster started			[ok]\n\n${NC}"
+printf "${CYAN}Cluster started${NC}${GREEN}			[ok]\n\n${NC}"
 
-#3 -Install metallb
+#3 -Install metallb and filezilla
 printf "${CYAN}Installing metalLB...		${NC}"
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml > /dev/null 2>&1 ;\
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml > /dev/null 2>&1 ;\
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
+printf "${CYAN}Installing filezilla		${NC}"
+apt-get install filezilla
+printf "${GREEN}[ok]\n${NC}"
+
 
 #4 -Build Docker images
 printf "${BLUE}\nBuilding Docker images\n${NC}"
@@ -95,10 +99,11 @@ kubectl apply -f ./srcs/nginx/nginx.yalm
 kubectl apply -f ./srcs/Grafana/grafana.yalm
 kubectl apply -f ./srcs/Ftps/ftps.yalm
 kubectl apply -f ./srcs/Telegraf/telegraf.yalm
-printf "${NC}${GREEN}\nGREAT SUCCESS !\n${NC}"
+printf "${NC}${GREEN}\nGREAT SUCCESS !\n\n${NC}"
 
 #6 -Open the Dashboard
-printf "${CYAN}Opening the Dashboard in Firefox...\n${NC}"
+printf "${CYAN}Displaying Pods and Services status...\n${NC}"
 minikube addons enable metrics-server
 kubectl get all
+printf "${CYAN}Opening the Dashboard in Firefox...\n${NC}"
 minikube dashboard
