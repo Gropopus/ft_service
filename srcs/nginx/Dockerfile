@@ -18,7 +18,6 @@ RUN mkdir -p /run/nginx
 COPY ./srcs/launch.sh /var/
 COPY ./srcs/nginx.conf /etc/nginx/
 COPY ./srcs/index.html /www/index.html
-COPY ./srcs/test.txt etc/www/
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=FR/ST=75017/L=Paris/O=42/CN=thsembel' -keyout /etc/nginx/localhost.key -out /etc/nginx/localhost.crt
 RUN chmod 777 ./var/launch.sh

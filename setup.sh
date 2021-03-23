@@ -26,7 +26,7 @@ printf "#  ||  _/\_  ||\ _I_ /||  _/\_ [_] []_/_L_J_\_[] [_] _/\_  ||\ _I_ /||  
 printf "#  ||  |__|  ||=/_|_\=||  |__|_|_|   _L_L_J_J_   |_|_|__|  ||=/_|_\=||  |__|  ||  #\n"
 printf "#  ||  |__|  |||__|__|||  |__[___]__--__===__--__[___]__|  |||__|__|||  |__|  ||  #\n"
 printf "#  [_]IIIIIII[_]IIIII[_]IIIIIL___J__II__|_|__II__L___JIIIII[_]IIIII[_]IIIIIII[_]  #\n"
-printf "#  [_] \_I_/ [_]\_I_/[_] \_I_[_]\II/[]\_\I/_/[]\II/[_]_I_/ [_]\_I_/[_]\_I_/  [_]  #\n"
+printf "#  [_] \_I_/ [_]\_I_/[_] \_I_[_]\II/[]\_\I/_/[]\II/[_]_I_/ [_]\_I_/[_] \_I_/ [_]  #\n"
 printf "#  L_J./   \.L_J/   \L_J./   L_JI  I[]/     \[]I  IL_J   \.L_J/   \L_J./   \.L_J  #\n"
 printf "#  L_J|     |L_J|   |L_J|    L_J|  |[]|     |[]|  |L_J    |L_J|   |L_J|     |L_J  #\n"
 printf "#  L_JL_____JL_JL___JL_JL____|-||  |[]|     |[]|  ||-|____JL_JL___JL_JL_____JL_J  #\n"
@@ -35,7 +35,40 @@ printf "#***********************************************************************
 printf "${NC}"
 
 #1 -Start host machin
-printf "${CYAN}Preparing host machine...\n${NC}"
+printf "${BLUE}Preparing host machine...\n${NC}"
+if ! docker > /dev/null 2>&1 
+then
+    printf "${CYAN}Installing Docker...			${NC}"
+    sudo apt-get install docker-ce docker-ce-cli containerd.io > /dev/null 2>&1 & spinner
+    printf "${GREEN}[ok]\n${NC}"
+else
+    printf "${GREEN}Docker is already installed.${NC}\n"
+fi
+
+if ! minikube version | grep -i "v1.18.1" > /dev/null 2>&1 
+then
+    printf "${CYAN}Installing minikube...		${NC}"
+    curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.18.1/minikube-linux-amd64 > /dev/null 2>&1 ; \
+    chmod +x minikube > /dev/null 2>&1 ; \
+    sudo mkdir -p /usr/local/bin/ ; \
+    sudo install minikube /usr/local/bin/
+    rm minikube
+    printf "${GREEN}[ok]\n${NC}"
+else
+    printf "${GREEN}Minikube is already installed.\n${NC}"
+fi
+
+if ! kubectl > /dev/null 2>&1 
+then
+    printf "${CYAN}Installing kubectl...		${NC}"
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl > /dev/null 2>&1 ; \
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl > /dev/null 2>&1 ; \
+    chmod +x ./kubectl > /dev/null 2>&1 ; \ 
+    sudo mv ./kubectl /usr/local/bin/kubectl
+    printf "${GREEN}[ok]\n${NC}"
+else
+    printf "${GREEN}Kubectl is already installed.\n${NC}"
+fi
 minikube delete
 sudo service docker start
 sudo service nginx stop
@@ -68,7 +101,7 @@ printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building mysql image...		${NC}"
 docker build --rm -t mysql ./srcs/mysql/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
-printf "${CYAN}Building ngynx image...		${NC}"
+printf "${CYAN}Building nginx image...		${NC}"
 docker build --rm -t nginx ./srcs/nginx/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building wordpress image...	${NC}"
@@ -81,7 +114,7 @@ printf "${CYAN}Building grafana images...	${NC}"
 docker build --rm -t grafana ./srcs/Grafana/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building ftps images...		${NC}"
-docker build -t ftps ./srcs/Ftps/. #> /dev/null 2>&1
+docker build -t ftps ./srcs/Ftps/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${GREEN}\nGREAT SUCCESS !\n${NC}"
 
