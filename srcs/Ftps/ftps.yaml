@@ -1,4 +1,4 @@
-# DEPLOYMENt
+# DEPLOYMENT
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,9 +18,10 @@ spec:
       containers:
       - name: ftps
         image: ftps
+        imagePullPolicy: Never
         ports:
         - containerPort: 21
-        - containerPort: 42
+        - containerPort: 40000
         livenessProbe:
           exec:
             command:
@@ -29,7 +30,6 @@ spec:
             - ps -o comm | grep 'telegraf' && ps -o comm | grep 'vsftpd'
           initialDelaySeconds: 30
           periodSeconds: 10
-        imagePullPolicy: Never
 ---
 # SERVICE
 apiVersion: v1
@@ -48,6 +48,5 @@ spec:
       port: 21
       targetPort: 21
     - name: pasv
-      port: 42
-      targetPort: 42
-
+      port: 40000
+      targetPort: 40000

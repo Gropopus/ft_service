@@ -35,7 +35,7 @@ printf "#***********************************************************************
 printf "${NC}"
 
 #1 -Start host machin
-
+printf "${CYAN}Preparing host machine...\n${NC}"
 minikube delete
 sudo service docker start
 sudo service nginx stop
@@ -45,7 +45,7 @@ sudo service influxdb stop
 #2 -Start the cluster
 printf "${CYAN}Starting minikube...\n${NC}"
 minikube start --vm-driver=docker
-printf "${CYAN}Cluster started${NC}${GREEN}			[ok]\n\n${NC}"
+printf "${CYAN}Cluster started${NC}${GREEN}			[ok]\n${NC}"
 
 #3 -Install metallb and filezilla
 printf "${CYAN}Installing metalLB...		${NC}"
@@ -54,7 +54,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manife
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Installing filezilla		${NC}"
-sudo apt-get install filezilla
+sudo apt-get install filezilla > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 
 
@@ -69,7 +69,7 @@ printf "${CYAN}Building mysql image...		${NC}"
 docker build --rm -t mysql ./srcs/mysql/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building ngynx image...		${NC}"
-docker build --rm -t my-nginx ./srcs/nginx/. > /dev/null 2>&1
+docker build --rm -t nginx ./srcs/nginx/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building wordpress image...	${NC}"
 docker build --rm -t wordpress ./srcs/wordpress/. > /dev/null 2>&1
@@ -81,24 +81,24 @@ printf "${CYAN}Building grafana images...	${NC}"
 docker build --rm -t grafana ./srcs/Grafana/. > /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${CYAN}Building ftps images...		${NC}"
-docker build -t ftps ./srcs/Ftps/. > /dev/null 2>&1
+docker build -t ftps ./srcs/Ftps/. #> /dev/null 2>&1
 printf "${GREEN}[ok]\n${NC}"
 printf "${GREEN}\nGREAT SUCCESS !\n${NC}"
 
 #5 -Pods Deployment
 printf "${CYAN}Deploying pods\n${NC}"
 printf "${GREEN}"
-kubectl apply -f ./srcs/MetalLB/metallb.yalm
-kubectl apply -f ./srcs/influxDB/influxdb-pv.yalm
-kubectl apply -f ./srcs/influxDB/influxdb.yalm
-kubectl apply -f ./srcs/mysql/mysql-pv.yalm
-kubectl apply -f ./srcs/mysql/mysql.yalm
-kubectl apply -f ./srcs/wordpress/wordpress.yalm
-kubectl apply -f ./srcs/PhpMyAdmin/phpmyadmin.yalm
-kubectl apply -f ./srcs/nginx/nginx.yalm
-kubectl apply -f ./srcs/Grafana/grafana.yalm
-kubectl apply -f ./srcs/Ftps/ftps.yalm
-kubectl apply -f ./srcs/Telegraf/telegraf.yalm
+kubectl apply -f ./srcs/MetalLB/metallb.yaml
+kubectl apply -f ./srcs/influxDB/influxdb-pv.yaml
+kubectl apply -f ./srcs/influxDB/influxdb.yaml
+kubectl apply -f ./srcs/mysql/mysql-pv.yaml
+kubectl apply -f ./srcs/mysql/mysql.yaml
+kubectl apply -f ./srcs/wordpress/wordpress.yaml
+kubectl apply -f ./srcs/PhpMyAdmin/phpmyadmin.yaml
+kubectl apply -f ./srcs/nginx/nginx.yaml
+kubectl apply -f ./srcs/Grafana/grafana.yaml
+kubectl apply -f ./srcs/Ftps/ftps.yaml
+kubectl apply -f ./srcs/Telegraf/telegraf.yaml
 printf "${NC}${GREEN}\nGREAT SUCCESS !\n\n${NC}"
 
 #6 -Open the Dashboard
