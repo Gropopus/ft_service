@@ -1,25 +1,13 @@
-# This is the version i've pushed.
+# ft_services
+Ft_services is an old project from 42school.The aim is to create a kubernetes cluster
+providing different services sharing the same IP address on localhost.
 
-# ft_service
-https://kubernetes.io/fr/docs/concepts/services-networking/service/
-service nginx stop
+The services provided are:
+- nginx (database)
+- influx db (database)
+- A wordpress site
+- Phpmyadmin
+- Grafana (monitoring all of the services)
+- Ftps (to manage file)
 
-service mariadb stop
-
-# clean the cluster
-
-minikube delete
-
-# Start host machin 
-
-service docker start
-
-# start your cluster
-
-minikube start --vm-driver=docker
-
-eval $(minikube docker-env)
-
-# copy grafana.db
-
-kubectl cp grafana-88fc67c7b-spckb:usr/share/grafana/data/grafana.db grafana.db
+The cluster and it's pods and containers must be launched with a shell script.
